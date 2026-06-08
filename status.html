@@ -1,316 +1,185 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Check Status — EasyPrimeTech Scholarship</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<style>
-:root{
-  --ink:#050a14;--paper:#f5f2eb;--primary:#0c1f4a;--accent:#f97316;
-  --gold:#f97316;--green:#0d6e47;--light-blue:#fff7ed;--muted:#6b7280;
-  --border:#e2e5ec;--radius:6px;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:var(--ink);color:#fff;min-height:100vh;display:flex;flex-direction:column}
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Status — EasyPrimeTech Scholarship</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles/status.css">
+  </head>
+  <body>
 
-/* ── TOP ── */
-.topbar{background:rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.06);padding:0 24px;height:64px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(10px)}
-.topbar-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:#fff;text-decoration:none}
-.topbar-logo span{color:var(--gold)}
-.topbar-links{display:flex;gap:24px}
-.topbar-links a{font-size:14px;color:rgba(255,255,255,.5);text-decoration:none;transition:.2s}
-.topbar-links a:hover{color:#fff}
-.topbar-apply{background:var(--accent);color:#fff;padding:8px 20px;border-radius:var(--radius);font-size:13px;font-weight:700;text-decoration:none;font-family:'Syne',sans-serif;transition:.2s}
-.topbar-apply:hover{background:#c8300c}
-
-/* ── HERO ── */
-.status-hero{flex:1;display:flex;align-items:center;justify-content:center;padding:60px 24px;position:relative;overflow:hidden}
-.grid-bg{position:absolute;inset:0;background-image:linear-gradient(rgba(10,61,143,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(10,61,143,.06) 1px,transparent 1px);background-size:50px 50px}
-.glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(10,61,143,.3) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%)}
-
-.status-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:52px 48px;max-width:520px;width:100%;position:relative;z-index:2;backdrop-filter:blur(20px)}
-.status-icon{width:64px;height:64px;background:var(--primary);border-radius:16px;display:grid;place-items:center;margin:0 auto 24px;font-size:28px}
-.status-card h1{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;text-align:center;margin-bottom:8px;color:#fff}
-.status-card > p{text-align:center;color:rgba(255,255,255,.55);font-size:15px;margin-bottom:32px}
-
-/* ── FORM ── */
-.check-form{display:flex;gap:10px}
-.id-input{flex:1;padding:14px 16px;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.12);border-radius:var(--radius);color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;outline:none;transition:.2s}
-.id-input::placeholder{color:rgba(255,255,255,.3)}
-.id-input:focus{border-color:rgba(10,61,143,.8);background:rgba(255,255,255,.1)}
-.check-btn{background:var(--primary);color:#fff;border:none;padding:14px 24px;border-radius:var(--radius);font-family:'Syne',sans-serif;font-weight:700;font-size:15px;cursor:pointer;transition:.2s;white-space:nowrap;display:flex;align-items:center;gap:8px}
-.check-btn:hover{background:#082f6b}
-.check-btn:disabled{opacity:.5;cursor:not-allowed}
-.spinner{display:inline-block;width:16px;height:16px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* ── RESULT PANELS ── */
-.result-panel{margin-top:28px;display:none;animation:slideUp .4s ease}
-.result-panel.show{display:block}
-@keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-
-/* NOT FOUND */
-.not-found{background:rgba(220,38,38,.08);border:1px solid rgba(220,38,38,.3);border-radius:10px;padding:28px;text-align:center}
-.not-found .icon{font-size:40px;margin-bottom:12px}
-.not-found h3{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#fca5a5;margin-bottom:8px}
-.not-found p{font-size:14px;color:rgba(252,165,165,.75);line-height:1.6}
-.wa-link{display:inline-flex;align-items:center;gap:8px;background:#25d366;color:#fff;padding:10px 20px;border-radius:var(--radius);font-family:'Syne',sans-serif;font-weight:700;font-size:13px;text-decoration:none;margin-top:16px;transition:.2s}
-.wa-link:hover{background:#1db954;transform:translateY(-1px)}
-
-/* PENDING */
-.pending-panel{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.3);border-radius:10px;padding:28px;text-align:center}
-.pending-panel .icon{font-size:40px;margin-bottom:12px}
-.pending-panel h3{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:var(--gold);margin-bottom:8px}
-.pending-panel p{font-size:14px;color:rgba(201,168,76,.75);line-height:1.6}
-
-/* ACCEPTED */
-.accepted-panel{background:linear-gradient(135deg,rgba(13,110,71,.15),rgba(13,110,71,.05));border:1px solid rgba(13,110,71,.4);border-radius:12px;padding:36px;text-align:center}
-.scholar-photo{width:100px;height:100px;border-radius:50%;object-fit:cover;border:3px solid var(--green);margin:0 auto 16px;display:block}
-.scholar-initials{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#1d5cb0);display:grid;place-items:center;margin:0 auto 16px;font-family:'Syne',sans-serif;font-size:36px;font-weight:800;color:#fff;border:3px solid var(--green)}
-.celebrate{font-size:42px;margin-bottom:12px}
-.accepted-panel h3{font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#6ee7b7;margin-bottom:4px}
-.accepted-panel .scholar-name{font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:#fff;margin-bottom:12px}
-.accepted-msg{background:rgba(110,231,183,.08);border:1px solid rgba(110,231,183,.2);border-radius:8px;padding:16px 20px;margin:16px 0;font-size:15px;color:rgba(255,255,255,.85);line-height:1.6}
-.perks-list{list-style:none;text-align:left;margin:16px 0}
-.perks-list li{display:flex;align-items:center;gap:10px;font-size:14px;color:rgba(255,255,255,.7);padding:6px 0;border-bottom:1px solid rgba(255,255,255,.05)}
-.perks-list li:last-child{border:none}
-.perks-list i{color:#6ee7b7;width:16px}
-
-/* ── FOOTER ── */
-footer{padding:32px 24px;border-top:1px solid rgba(255,255,255,.06);text-align:center}
-footer p{font-size:13px;color:rgba(255,255,255,.3)}
-footer a{color:rgba(255,255,255,.5);text-decoration:none;transition:.2s}
-footer a:hover{color:#fff}
-
-@media(max-width:600px){
-  .status-card{padding:36px 24px}
-  .check-form{flex-direction:column}
-  .topbar-links{display:none}
-}
-
-/* ── MOBILE NAV ── */
-.mob-toggle{display:none;background:none;border:none;cursor:pointer;padding:6px;color:#fff;font-size:22px;line-height:1;flex-shrink:0}
-.mob-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:98;backdrop-filter:blur(2px)}
-.mob-overlay.open{display:block}
-.mob-drawer{position:fixed;top:0;right:0;bottom:0;width:260px;background:#050a14;z-index:99;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);padding:0;display:flex;flex-direction:column;border-left:1px solid rgba(255,255,255,.08)}
-.mob-drawer.open{transform:translateX(0)}
-.mob-drawer-header{display:flex;align-items:center;justify-content:space-between;padding:20px 20px 16px;border-bottom:1px solid rgba(255,255,255,.07)}
-.mob-drawer-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:18px;color:#fff;text-decoration:none}
-.mob-drawer-logo span{color:#f97316}
-.mob-close{background:none;border:none;color:rgba(255,255,255,.5);font-size:20px;cursor:pointer;padding:4px;line-height:1}
-.mob-close:hover{color:#fff}
-.mob-nav{list-style:none;padding:16px 0;flex:1;overflow-y:auto}
-.mob-nav li a,.mob-nav li button{display:flex;align-items:center;gap:12px;width:100%;padding:13px 20px;font-size:15px;font-weight:500;color:rgba(255,255,255,.65);text-decoration:none;background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:.15s;text-align:left}
-.mob-nav li a:hover,.mob-nav li button:hover{color:#fff;background:rgba(255,255,255,.05)}
-.mob-nav li a i,.mob-nav li button i{width:18px;text-align:center;font-size:14px;color:rgba(255,255,255,.4)}
-.mob-nav li a:hover i,.mob-nav li button:hover i{color:#f97316}
-.mob-nav .mob-divider{height:1px;background:rgba(255,255,255,.07);margin:8px 20px}
-.mob-cta-wrap{padding:16px 20px;border-top:1px solid rgba(255,255,255,.07)}
-.mob-cta{display:block;width:100%;padding:13px;background:#f97316;color:#fff;border:none;border-radius:6px;font-family:'Syne',sans-serif;font-weight:700;font-size:15px;text-align:center;text-decoration:none;cursor:pointer;transition:.2s}
-.mob-cta:hover{background:#c8300c}
-@media(max-width:768px){
-  .mob-toggle{display:flex;align-items:center;justify-content:center}
-  nav .nav-links{display:none!important}
-  nav .nav-cta{display:none}
-  .footer-inner{grid-template-columns:1fr!important}
-  .card,.search-card{padding:32px 20px!important}
-  .search-bar{flex-direction:column!important}
-  .search-bar input{border-right:1.5px solid rgba(255,255,255,.2)!important;border-radius:6px!important}
-  .search-bar button{border-radius:6px!important;width:100%}
-  .stats-grid{grid-template-columns:1fr 1fr!important}
-  .profile-banner{flex-wrap:wrap!important}
-  .scholar-badge{margin-left:0!important}
-  .section-head{flex-wrap:wrap}
-  .form-row,.form-row.three{grid-template-columns:1fr!important}
-  .data-table-wrap{overflow-x:auto}
-  .hero{padding:40px 16px!important}
-}
-
-
-/* ── LOGO IMAGE ── */
-.logo-img{height:44px;width:auto;display:block;object-fit:contain}
-.logo-img-sm{height:32px;width:auto;display:block;object-fit:contain}
-.logo-img-lg{height:72px;width:auto;display:block;object-fit:contain;margin:0 auto}
-.logo-img-xl{height:100px;width:auto;display:block;object-fit:contain;margin:0 auto}
-.nav-logo-wrap{display:flex;align-items:center;text-decoration:none}
-
-</style>
-</head>
-<body>
-
-<div class="topbar">
-  <a href="index.html" class="nav-logo-wrap"><img src="EasyPrimelogo.png" alt="EasyPrimeTech" class="logo-img"></a>
-  <div class="topbar-links">
-    <a href="index.html">Home</a>
-    <a href="apply.html">Apply</a>
-  </div>
-  <a href="apply.html" class="topbar-apply">Apply Free →</a>
-</div>
-
-<div class="status-hero">
-  <div class="grid-bg"></div>
-  <div class="glow"></div>
-  <div class="status-card">
-    <div class="status-icon">🔍</div>
-    <h1>Check Your Status</h1>
-    <p>Enter the unique Scholar ID you received after applying to check your scholarship decision.</p>
-
-    <div class="check-form">
-      <input class="id-input" type="text" id="scholarId" placeholder="e.g. Mane_25" onkeydown="if(event.key==='Enter')checkStatus()" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9_]/g,'')">
-      <button class="check-btn" onclick="checkStatus()" id="checkBtn">
-        <i class="fas fa-search"></i> Check
-      </button>
-    </div>
-
-    <!-- RESULTS -->
-    <div class="result-panel" id="resultNotFound">
-      <div class="not-found">
-        <div class="icon">🔎</div>
-        <h3>Scholarship Not Found or Not Yet Approved</h3>
-        <p>We couldn't find an accepted scholarship for this ID. Your application may still be under review, or the ID may be incorrect.</p>
-        <p style="margin-top:8px">Applications are reviewed within <strong>5–7 business days</strong>. Please check back soon.</p>
-        <a class="wa-link" href="https://wa.me/447916399138" target="_blank"><i class="fab fa-whatsapp"></i> Contact Us on WhatsApp (UK)</a>
+    <div class="topbar">
+      <a href="index.html" class="nav-logo-wrap"><img src="EasyPrimelogo.png" alt="EasyPrimeTech" class="logo-img"></a>
+      <div class="topbar-links">
+        <a href="index.html">Home</a>
+        <a href="apply.html">Apply</a>
       </div>
-    </div>
-<!-- href="https://wa.me/447916399138" this is the official whatsap link for this program-->
-    <div class="result-panel" id="resultPending">
-      <div class="pending-panel">
-        <div class="icon">⏳</div>
-        <h3>Application Under Review</h3>
-        <p>Your application has been received and is currently being reviewed by our team. We'll notify you by email once a decision has been made.</p>
-        <p style="margin-top:10px;font-size:13px">Typical review time: <strong>5–7 business days</strong></p>
-           <a class="wa-link" href="https://wa.me/447916399138" target="_blank"><i class="fab fa-whatsapp"></i> Contact Us on WhatsApp (UK) if you think there is an error</a>
-      
-      </div>
+      <a href="apply.html" class="topbar-apply">Apply Free →</a>
     </div>
 
-    <div class="result-panel" id="resultAccepted">
-      <div class="accepted-panel">
-        <img src="EasyPrimelogo.png" alt="EasyPrimeTech" style="height:86px;width:auto;display:block;margin:0 auto 16px;object-fit:contain">
-<div class="celebrate">🎊</div>
-        <div id="scholarPhoto"></div>
-        <h3>Congratulations!</h3>
-        <div class="scholar-name" id="scholarName">—</div>
-        <div class="accepted-msg">
-          🎉 You have been selected as one of the <strong>200 scholarship beneficiaries</strong> of the EasyPrimeTech Scholarship Program.
+    <div class="status-hero">
+      <div class="grid-bg"></div>
+      <div class="glow"></div>
+      <div class="status-card">
+        <div class="status-icon">🔍</div>
+        <h1>Check Your Status</h1>
+        <p>Enter the unique Scholar ID you received after applying to check your scholarship decision.</p>
+
+        <div class="check-form">
+          <input class="id-input" type="text" id="scholarId" placeholder="e.g. Mane_25" onkeydown="if(event.key==='Enter')checkStatus()" oninput="this.value=this.value.toLowerCase().replace(/[^a-z0-9_]/g,'')">
+          <button class="check-btn" onclick="checkStatus()" id="checkBtn">
+            <i class="fas fa-search"></i> Check
+          </button>
         </div>
-        <ul class="perks-list">
-          <li><i class="fas fa-check"></i> Full course masterclass access</li>
-          <li><i class="fas fa-check"></i> Industry-recognised certification</li>
-          <li><i class="fas fa-check"></i> Internship opportunity consideration</li>
-          <li><i class="fas fa-check"></i> Job offer letter support</li>
-          <li><i class="fas fa-check"></i> UK career pathway guidance</li>
-        </ul>
-          <p>Welcome on board let <br> <i>Create, Innovate and Illuminate</i></p>
-        <p style="font-size:13px;color:rgba(255,255,255,.4);margin-top:8px">Check your email for next steps. Welcome to the scholar community!</p>
+
+        <!-- RESULTS -->
+        <div class="result-panel" id="resultNotFound">
+          <div class="not-found">
+            <div class="icon">🔎</div>
+            <h3>Scholarship Not Found or Not Yet Approved</h3>
+            <p>We couldn't find an accepted scholarship for this ID. Your application may still be under review, or the ID may be incorrect.</p>
+            <p style="margin-top:8px">Applications are reviewed within <strong>5–7 business days</strong>. Please check back soon.</p>
+            <a class="wa-link" href="https://wa.me/447916399138" target="_blank"><i class="fab fa-whatsapp"></i> Contact Us on WhatsApp (UK)</a>
+          </div>
+        </div>
+    <!-- href="https://wa.me/447916399138" this is the official whatsap link for this program-->
+        <div class="result-panel" id="resultPending">
+          <div class="pending-panel">
+            <div class="icon">⏳</div>
+            <h3>Application Under Review</h3>
+            <p>Your application has been received and is currently being reviewed by our team. We'll notify you by email once a decision has been made.</p>
+            <p style="margin-top:10px;font-size:13px">Typical review time: <strong>5–7 business days</strong></p>
+              <a class="wa-link" href="https://wa.me/447916399138" target="_blank"><i class="fab fa-whatsapp"></i> Contact Us on WhatsApp (UK) if you think there is an error</a>
+          
+          </div>
+        </div>
+
+        <div class="result-panel" id="resultAccepted">
+          <div class="accepted-panel">
+            <img src="EasyPrimelogo.png" alt="EasyPrimeTech" style="height:86px;width:auto;display:block;margin:0 auto 16px;object-fit:contain">
+    <div class="celebrate">🎊</div>
+            <div id="scholarPhoto"></div>
+            <h3>Congratulations!</h3>
+            <div class="scholar-name" id="scholarName">—</div>
+            <div class="accepted-msg">
+              🎉 You have been selected as one of the <strong>200 scholarship beneficiaries</strong> of the EasyPrimeTech Scholarship Program.
+            </div>
+            <ul class="perks-list">
+              <li><i class="fas fa-check"></i> Full course masterclass access</li>
+              <li><i class="fas fa-check"></i> Industry-recognised certification</li>
+              <li><i class="fas fa-check"></i> Internship opportunity consideration</li>
+              <li><i class="fas fa-check"></i> Job offer letter support</li>
+              <li><i class="fas fa-check"></i> UK career pathway guidance</li>
+            </ul>
+              <p>Welcome on board let <br> <i>Create, Innovate and Illuminate</i></p>
+            <p style="font-size:13px;color:rgba(255,255,255,.4);margin-top:8px">Check your email for next steps. Welcome to the scholar community!</p>
+          </div>
+        </div>
+
       </div>
     </div>
 
-  </div>
-</div>
+    <footer>
+      <p>© 2025 EasyPrimeTech Scholarship Program · <a href="index.html">Home</a> · <a href="apply.html">Apply</a></p>
+    </footer>
 
-<footer>
-  <p>© 2025 EasyPrimeTech Scholarship Program · <a href="index.html">Home</a> · <a href="apply.html">Apply</a></p>
-</footer>
+    <!-- Firebase -->
+    <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+    import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+    import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 
-<!-- Firebase -->
-<script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+    const cfg = {
+      apiKey:"AIzaSyCZdRCLRLMeiV3mtyRB0ACJ5ihXMrR_yV0",
+      authDomain:"easyprimetech-scholarship.firebaseapp.com",
+      projectId:"easyprimetech-scholarship",
+      storageBucket:"easyprimetech-scholarship.firebasestorage.app",
+      messagingSenderId:"7870182921",
+      appId:"1:7870182921:web:d5478fe6188db8ae8eaad8"
+    };
 
-const cfg = {
-  apiKey:"AIzaSyCZdRCLRLMeiV3mtyRB0ACJ5ihXMrR_yV0",
-  authDomain:"easyprimetech-scholarship.firebaseapp.com",
-  projectId:"easyprimetech-scholarship",
-  storageBucket:"easyprimetech-scholarship.firebasestorage.app",
-  messagingSenderId:"7870182921",
-  appId:"1:7870182921:web:d5478fe6188db8ae8eaad8"
-};
+    const app  = initializeApp(cfg);
+    const db   = getFirestore(app);
+    const auth = getAuth(app);
 
-const app  = initializeApp(cfg);
-const db   = getFirestore(app);
-const auth = getAuth(app);
+    // Expose globals immediately, then sign in
+    window._db         = db;
+    window._collection = collection;
+    window._query      = query;
+    window._where      = where;
+    window._getDocs    = getDocs;
 
-// Expose globals immediately, then sign in
-window._db         = db;
-window._collection = collection;
-window._query      = query;
-window._where      = where;
-window._getDocs    = getDocs;
+    // Sign in anonymously — required for Firestore rules: if request.auth != null
+    signInAnonymously(auth)
+      .then(() => { window._fbReady = true; })
+      .catch(e  => { console.error('Firebase anon auth failed:', e.code, e.message); window._fbReady = true; });
+    </script>
 
-// Sign in anonymously — required for Firestore rules: if request.auth != null
-signInAnonymously(auth)
-  .then(() => { window._fbReady = true; })
-  .catch(e  => { console.error('Firebase anon auth failed:', e.code, e.message); window._fbReady = true; });
-</script>
+    <script>
 
-<script>
+      // Wait for Firebase anonymous auth to complete before using Firestore
+      function waitForFB(cb, attempts) {
+        attempts = attempts || 0;
+        if (window._fbReady) { cb(); return; }
+        if (attempts > 50) { cb(); return; } // timeout after 5 seconds - try anyway
+        setTimeout(() => waitForFB(cb, attempts + 1), 100);
+      }
+      async function checkStatus(){
+        const id = document.getElementById('scholarId').value.trim();
+        if(!id){alert('Please enter your Scholar ID.');return;}
 
-// Wait for Firebase anonymous auth to complete before using Firestore
-function waitForFB(cb, attempts) {
-  attempts = attempts || 0;
-  if (window._fbReady) { cb(); return; }
-  if (attempts > 50) { cb(); return; } // timeout after 5 seconds - try anyway
-  setTimeout(() => waitForFB(cb, attempts + 1), 100);
-}
-async function checkStatus(){
-  const id = document.getElementById('scholarId').value.trim();
-  if(!id){alert('Please enter your Scholar ID.');return;}
+        const btn = document.getElementById('checkBtn');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner"></span>';
 
-  const btn = document.getElementById('checkBtn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="spinner"></span>';
+        // Hide all results
+        ['resultNotFound','resultPending','resultAccepted'].forEach(p=>document.getElementById(p).classList.remove('show'));
 
-  // Hide all results
-  ['resultNotFound','resultPending','resultAccepted'].forEach(p=>document.getElementById(p).classList.remove('show'));
+        await new Promise(r=>setTimeout(r,700));
 
-  await new Promise(r=>setTimeout(r,700));
+        let found = null;
 
-  let found = null;
+        // Try Firebase - wait for auth first
+        try{
+          await new Promise(resolve => waitForFB(resolve));
+          if(window._db){
+            const q = window._query(window._collection(window._db,'applications'), window._where('username','==',id));
+            const snap = await window._getDocs(q);
+            if(!snap.empty){found = snap.docs[0].data()}
+          }
+        }catch(e){console.warn('Firestore check failed, trying localStorage', e.message)}
 
-  // Try Firebase - wait for auth first
-  try{
-    await new Promise(resolve => waitForFB(resolve));
-    if(window._db){
-      const q = window._query(window._collection(window._db,'applications'), window._where('username','==',id));
-      const snap = await window._getDocs(q);
-      if(!snap.empty){found = snap.docs[0].data()}
-    }
-  }catch(e){console.warn('Firestore check failed, trying localStorage', e.message)}
+        // Fallback localStorage
+        if(!found){
+          const apps = JSON.parse(localStorage.getItem('ept_applications')||'[]');
+          found = apps.find(a=>a.username===id) || null;
+        }
 
-  // Fallback localStorage
-  if(!found){
-    const apps = JSON.parse(localStorage.getItem('ept_applications')||'[]');
-    found = apps.find(a=>a.username===id) || null;
-  }
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-search"></i> Check';
 
-  btn.disabled = false;
-  btn.innerHTML = '<i class="fas fa-search"></i> Check';
+        if(!found){
+          document.getElementById('resultNotFound').classList.add('show');
+          return;
+        }
 
-  if(!found){
-    document.getElementById('resultNotFound').classList.add('show');
-    return;
-  }
-
-  if(found.status==='accepted'){
-    document.getElementById('scholarName').textContent = found.fullName || '—';
-    const photoEl = document.getElementById('scholarPhoto');
-    if(found.photoURL){
-      photoEl.innerHTML = `<img class="scholar-photo" src="${found.photoURL}" alt="${found.fullName}" onerror="this.parentNode.innerHTML='<div class=scholar-initials>${(found.fullName||'?').split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2)}</div>'">`;
-    }else{
-      const initials = (found.fullName||'?').split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
-      photoEl.innerHTML = `<div class="scholar-initials">${initials}</div>`;
-    }
-    document.getElementById('resultAccepted').classList.add('show');
-  }else{
-    document.getElementById('resultPending').classList.add('show');
-  }
-}
-window.checkStatus=checkStatus;
-</script>
-</body>
+        if(found.status==='accepted'){
+          document.getElementById('scholarName').textContent = found.fullName || '—';
+          const photoEl = document.getElementById('scholarPhoto');
+          if(found.photoURL){
+            photoEl.innerHTML = `<img class="scholar-photo" src="${found.photoURL}" alt="${found.fullName}" onerror="this.parentNode.innerHTML='<div class=scholar-initials>${(found.fullName||'?').split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2)}</div>'">`;
+          }else{
+            const initials = (found.fullName||'?').split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+            photoEl.innerHTML = `<div class="scholar-initials">${initials}</div>`;
+          }
+          document.getElementById('resultAccepted').classList.add('show');
+        }else{
+          document.getElementById('resultPending').classList.add('show');
+        }
+      }
+      window.checkStatus=checkStatus;
+    </script>
+  </body>
 </html>
