@@ -1,0 +1,30 @@
+:root{
+  --brand-orange:#ff8a1f; /* logo-inspired */
+  --brand-dark:#071428; /* deep navy from logo */
+  --brand-accent:#ff3e1f; /* warm accent */
+}
+html,body{height:100%}
+body{background:linear-gradient(180deg,var(--brand-dark) 0%, #05060a 100%);min-height:100vh;padding:24px}
+.login-card{max-width:420px;width:100%;border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.06);margin:auto}
+.brand-top{background:linear-gradient(90deg,var(--brand-orange),var(--brand-accent));padding:22px 18px;text-align:center}
+.brand-top img{height:auto;max-height:88px;max-width:70%}
+.card-body{background:#fff;padding:28px}
+.btn-primary{background:var(--brand-orange);border-color:var(--brand-orange)}
+.form-label{font-weight:600}
+.text-muted-small{font-size:13px;color:#6b7280}
+.error-box{background:#fff6f6;border:1px solid #f5c6cb;color:#842029;padding:10px;border-radius:8px;margin-bottom:12px}
+.footer-note{font-size:13px;color:#94a3b8;text-align:center;margin-top:12px}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+  .brand-top{padding:14px}
+  .brand-top img{max-height:64px}
+  .card-body{padding:16px}
+  .login-card{margin:12px;width:calc(100% - 24px)}
+  .btn-lg{padding:10px 14px}
+}
+
+@media (min-width: 1200px) {
+  .login-card{max-width:520px}
+  .brand-top img{max-height:96px}
+}

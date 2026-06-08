@@ -5,8 +5,8 @@
   $_SESSION['error'] = '';
 
   if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['ins_email'] ?? '');
-    $password = $_POST['ins_pw'] ?? '';
+    $email = trim($_POST['inst_email'] ?? '');
+    $password = $_POST['inst_pw'] ?? '';
     
     $stmt = $pdo->prepare('SELECT password FROM users WHERE email = :email');
     $stmt->execute([':email' => $email]);
