@@ -87,99 +87,99 @@
 
     <!-- Firebase -->
     <script type="module">
-    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-    import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
-    import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
+      import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+      import { getFirestore, collection, query, where, getDocs } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js';
+      import { getAuth, signInAnonymously } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js';
 
-    const cfg = {
-      apiKey:"AIzaSyCZdRCLRLMeiV3mtyRB0ACJ5ihXMrR_yV0",
-      authDomain:"easyprimetech-scholarship.firebaseapp.com",
-      projectId:"easyprimetech-scholarship",
-      storageBucket:"easyprimetech-scholarship.firebasestorage.app",
-      messagingSenderId:"7870182921",
-      appId:"1:7870182921:web:d5478fe6188db8ae8eaad8"
-    };
+      const cfg = {
+        apiKey:"AIzaSyCZdRCLRLMeiV3mtyRB0ACJ5ihXMrR_yV0",
+        authDomain:"easyprimetech-scholarship.firebaseapp.com",
+        projectId:"easyprimetech-scholarship",
+        storageBucket:"easyprimetech-scholarship.firebasestorage.app",
+        messagingSenderId:"7870182921",
+        appId:"1:7870182921:web:d5478fe6188db8ae8eaad8"
+      };
 
-    const app  = initializeApp(cfg);
-    const db   = getFirestore(app);
-    const auth = getAuth(app);
+      const app  = initializeApp(cfg);
+      const db   = getFirestore(app);
+      const auth = getAuth(app);
 
-    // Expose globals immediately, then sign in
-    window._db         = db;
-    window._collection = collection;
-    window._query      = query;
-    window._where      = where;
-    window._getDocs    = getDocs;
+      // Expose globals immediately, then sign in
+      window._db         = db;
+      window._collection = collection;
+      window._query      = query;
+      window._where      = where;
+      window._getDocs    = getDocs;
 
-    // Sign in anonymously — required for Firestore rules: if request.auth != null
-    signInAnonymously(auth)
-      .then(() => { window._fbReady = true; })
-      .catch(e  => { console.error('Firebase anon auth failed:', e.code, e.message); window._fbReady = true; });
-    </script>
+      // Sign in anonymously — required for Firestore rules: if request.auth != null
+      signInAnonymously(auth)
+        .then(() => { window._fbReady = true; })
+        .catch(e  => { console.error('Firebase anon auth failed:', e.code, e.message); window._fbReady = true; });
+      </script>
 
-    <script>
+      <script>
 
-      // Wait for Firebase anonymous auth to complete before using Firestore
-      function waitForFB(cb, attempts) {
-        attempts = attempts || 0;
-        if (window._fbReady) { cb(); return; }
-        if (attempts > 50) { cb(); return; } // timeout after 5 seconds - try anyway
-        setTimeout(() => waitForFB(cb, attempts + 1), 100);
-      }
-      async function checkStatus(){
-        const id = document.getElementById('scholarId').value.trim();
-        if(!id){alert('Please enter your Scholar ID.');return;}
+        // Wait for Firebase anonymous auth to complete before using Firestore
+        function waitForFB(cb, attempts) {
+          attempts = attempts || 0;
+          if (window._fbReady) { cb(); return; }
+          if (attempts > 50) { cb(); return; } // timeout after 5 seconds - try anyway
+          setTimeout(() => waitForFB(cb, attempts + 1), 100);
+        }
+        async function checkStatus(){
+          const id = document.getElementById('scholarId').value.trim();
+          if(!id){alert('Please enter your Scholar ID.');return;}
 
-        const btn = document.getElementById('checkBtn');
-        btn.disabled = true;
-        btn.innerHTML = '<span class="spinner"></span>';
+          const btn = document.getElementById('checkBtn');
+          btn.disabled = true;
+          btn.innerHTML = '<span class="spinner"></span>';
 
-        // Hide all results
-        ['resultNotFound','resultPending','resultAccepted'].forEach(p=>document.getElementById(p).classList.remove('show'));
+          // Hide all results
+          ['resultNotFound','resultPending','resultAccepted'].forEach(p=>document.getElementById(p).classList.remove('show'));
 
-        await new Promise(r=>setTimeout(r,700));
+          await new Promise(r=>setTimeout(r,700));
 
-        let found = null;
+          let found = null;
 
-        // Try Firebase - wait for auth first
-        try{
-          await new Promise(resolve => waitForFB(resolve));
-          if(window._db){
-            const q = window._query(window._collection(window._db,'applications'), window._where('username','==',id));
-            const snap = await window._getDocs(q);
-            if(!snap.empty){found = snap.docs[0].data()}
+          // Try Firebase - wait for auth first
+          try{
+            await new Promise(resolve => waitForFB(resolve));
+            if(window._db){
+              const q = window._query(window._collection(window._db,'applications'), window._where('username','==',id));
+              const snap = await window._getDocs(q);
+              if(!snap.empty){found = snap.docs[0].data()}
+            }
+          }catch(e){console.warn('Firestore check failed, trying localStorage', e.message)}
+
+          // Fallback localStorage
+          if(!found){
+            const apps = JSON.parse(localStorage.getItem('ept_applications')||'[]');
+            found = apps.find(a=>a.username===id) || null;
           }
-        }catch(e){console.warn('Firestore check failed, trying localStorage', e.message)}
 
-        // Fallback localStorage
-        if(!found){
-          const apps = JSON.parse(localStorage.getItem('ept_applications')||'[]');
-          found = apps.find(a=>a.username===id) || null;
-        }
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fas fa-search"></i> Check';
 
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fas fa-search"></i> Check';
+          if(!found){
+            document.getElementById('resultNotFound').classList.add('show');
+            return;
+          }
 
-        if(!found){
-          document.getElementById('resultNotFound').classList.add('show');
-          return;
-        }
-
-        if(found.status==='accepted'){
-          document.getElementById('scholarName').textContent = found.fullName || '—';
-          const photoEl = document.getElementById('scholarPhoto');
-          if(found.photoURL){
-            photoEl.innerHTML = `<img class="scholar-photo" src="${found.photoURL}" alt="${found.fullName}" onerror="this.parentNode.innerHTML='<div class=scholar-initials>${(found.fullName||'?').split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2)}</div>'">`;
+          if(found.status==='accepted'){
+            document.getElementById('scholarName').textContent = found.fullName || '—';
+            const photoEl = document.getElementById('scholarPhoto');
+            if(found.photoURL){
+              photoEl.innerHTML = `<img class="scholar-photo" src="${found.photoURL}" alt="${found.fullName}" onerror="this.parentNode.innerHTML='<div class=scholar-initials>${(found.fullName||'?').split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2)}</div>'">`;
+            }else{
+              const initials = (found.fullName||'?').split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+              photoEl.innerHTML = `<div class="scholar-initials">${initials}</div>`;
+            }
+            document.getElementById('resultAccepted').classList.add('show');
           }else{
-            const initials = (found.fullName||'?').split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
-            photoEl.innerHTML = `<div class="scholar-initials">${initials}</div>`;
+            document.getElementById('resultPending').classList.add('show');
           }
-          document.getElementById('resultAccepted').classList.add('show');
-        }else{
-          document.getElementById('resultPending').classList.add('show');
         }
-      }
-      window.checkStatus=checkStatus;
+        window.checkStatus=checkStatus;
     </script>
   </body>
 </html>
