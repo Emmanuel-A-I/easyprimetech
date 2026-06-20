@@ -1,0 +1,141 @@
+:root{
+  --ink:#050a14;
+  --paper:#f5f2eb;
+  --primary:#0c1f4a;
+  --accent:#f97316;
+  --gold:#f97316;
+  --green:#0d6e47;
+  --light-blue:#fff7ed;
+  --muted:#6b7280;
+  --border:#e2e5ec;
+  --radius:6px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;background:var(--ink);color:#fff;min-height:100vh;display:flex;flex-direction:column}
+
+/* NAV */
+nav{background:rgba(5,10,20,.95);border-bottom:1px solid rgba(255,255,255,.07);padding:0 24px;height:68px;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(12px);position:sticky;top:0;z-index:50}
+.nav-logo{text-decoration:none;display:flex;align-items:center}
+.nav-logo span{color:var(--gold)}
+.nav-back{color:rgba(255,255,255,.6);font-size:14px;text-decoration:none;display:flex;align-items:center;gap:6px;transition:.2s}
+.nav-back:hover{color:#fff}
+
+/* HERO */
+.hero{background:var(--primary);padding:56px 24px 48px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:40px 40px}
+.hero-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(201,168,76,.2);border:1px solid rgba(201,168,76,.4);color:var(--gold);padding:6px 18px;border-radius:50px;font-size:12px;font-weight:700;margin-bottom:20px;font-family:'Inter',sans-serif;letter-spacing:.5px;position:relative}
+.hero h1{font-family:'Inter',sans-serif;font-size:clamp(28px,4vw,44px);font-weight:800;color:#fff;letter-spacing:-1.5px;margin-bottom:10px;position:relative}
+.hero p{color:rgba(255,255,255,.65);font-size:15px;max-width:480px;margin:0 auto;line-height:1.6;position:relative}
+
+/* LAYOUT */
+main{flex:1;max-width:860px;width:100%;margin:0 auto;padding:40px 24px 80px}
+
+/* STEP BAR */
+.steps{display:flex;align-items:center;margin-bottom:36px}
+.step-node{display:flex;flex-direction:column;align-items:center;flex:1;position:relative}
+.step-node:not(:last-child)::after{content:'';position:absolute;top:16px;left:calc(50% + 16px);right:calc(-50% + 16px);height:1px;background:rgba(255,255,255,.1);z-index:0}
+.step-node.done:not(:last-child)::after{background:var(--primary)}
+.step-circle{width:32px;height:32px;border-radius:50%;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.05);display:grid;place-items:center;font-family:'Inter',sans-serif;font-weight:700;font-size:13px;color:rgba(255,255,255,.4);position:relative;z-index:1;transition:.3s}
+.step-node.active .step-circle{border-color:var(--gold);background:var(--gold);color:var(--ink)}
+.step-node.done .step-circle{border-color:var(--green);background:var(--green);color:#fff}
+.step-lbl{font-size:10px;color:rgba(255,255,255,.35);margin-top:5px;font-family:'Inter',sans-serif;font-weight:700;text-align:center;letter-spacing:.3px;text-transform:uppercase}
+.step-node.active .step-lbl{color:rgba(255,255,255,.8)}
+.step-node.done .step-lbl{color:#6ee7b7}
+
+/* CARD */
+.card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);border-radius:12px;padding:36px 40px;margin-bottom:20px;backdrop-filter:blur(12px)}
+.card-title{font-family:'Inter',sans-serif;font-size:18px;font-weight:800;color:#fff;margin-bottom:4px}
+.card-sub{font-size:13px;color:rgba(255,255,255,.45);margin-bottom:28px}
+
+/* ACCOUNT BOX */
+.account-box{background:linear-gradient(135deg,rgba(10,61,143,.4),rgba(29,92,176,.3));border:1px solid rgba(10,61,143,.6);border-radius:10px;padding:28px 32px;margin-bottom:24px}
+.account-box-title{font-family:'Inter',sans-serif;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:rgba(147,180,255,.7);margin-bottom:16px}
+.account-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.07)}
+.account-row:last-child{margin-bottom:0;padding-bottom:0;border-bottom:none}
+.account-label{font-size:12px;color:rgba(255,255,255,.45);font-family:'Inter',sans-serif;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.account-val{font-family:'Inter',sans-serif;font-size:16px;font-weight:800;color:#fff;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.copy-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.6);padding:5px 12px;border-radius:4px;font-family:'Inter',sans-serif;font-size:11px;font-weight:700;cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:5px}
+.copy-btn:hover{background:rgba(255,255,255,.15);color:#fff}
+.copy-btn.copied{background:rgba(13,110,71,.3);border-color:rgba(110,231,183,.3);color:#6ee7b7}
+
+/* FEE CARD (single) */
+.fee-card-single{border-radius:10px;padding:24px 28px;margin-bottom:24px;display:flex;align-items:center;gap:20px}
+.fee-card-single.ng{background:linear-gradient(135deg,#008751,#006442)}
+.fee-card-single.gl{background:linear-gradient(135deg,#0c1f4a,#1d5cb0)}
+.fee-card-single .flag{font-size:36px;flex-shrink:0}
+.fee-card-single .fee-info h4{font-family:'Inter',sans-serif;font-size:13px;font-weight:700;color:rgba(255,255,255,.75);margin-bottom:4px}
+.fee-card-single .fee-info .amount{font-family:'Inter',sans-serif;font-size:36px;font-weight:800;color:#fff;line-height:1}
+.fee-card-single .fee-info .note{font-size:12px;color:rgba(255,255,255,.55);margin-top:4px}
+
+/* INFO BOX */
+.info-box{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.25);border-left:3px solid var(--gold);border-radius:0 var(--radius) var(--radius) 0;padding:14px 18px;font-size:13px;color:rgba(255,255,255,.65);line-height:1.6;margin-bottom:24px;display:flex;gap:10px;align-items:flex-start}
+.info-box i{color:var(--gold);flex-shrink:0;margin-top:2px}
+
+/* FORM PANELS */
+.form-panel{display:none;animation:fadeIn .35s ease}
+.form-panel.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* FIELDS */
+.field{margin-bottom:18px}
+.field label{display:block;font-size:12px;font-weight:700;color:rgba(255,255,255,.45);margin-bottom:7px;text-transform:uppercase;letter-spacing:.5px;font-family:'Inter',sans-serif}
+.field input,.field select,.field textarea{width:100%;padding:13px 16px;background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.1);border-radius:var(--radius);color:#fff;font-family:'Inter',sans-serif;font-size:15px;outline:none;transition:.2s}
+.field input::placeholder,.field textarea::placeholder{color:rgba(255,255,255,.22)}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--primary);background:rgba(10,61,143,.12);box-shadow:0 0 0 3px rgba(10,61,143,.2)}
+.field-err{font-size:12px;color:#fca5a5;margin-top:5px;display:none}
+.field-err.show{display:block}
+.field select option{background:#0c1f4a;color:#fff}
+
+/* SCREENSHOT UPLOAD */
+.upload-zone{border:2px dashed rgba(255,255,255,.15);border-radius:10px;padding:32px 20px;text-align:center;cursor:pointer;transition:.3s;position:relative;background:rgba(255,255,255,.02)}
+.upload-zone:hover,.upload-zone.drag{border-color:var(--gold);background:rgba(201,168,76,.06)}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-zone .upload-icon{font-size:32px;margin-bottom:10px;opacity:.5}
+.upload-zone .upload-label{font-family:'Inter',sans-serif;font-size:14px;font-weight:700;color:rgba(255,255,255,.6);margin-bottom:4px}
+.upload-zone .upload-hint{font-size:12px;color:rgba(255,255,255,.3)}
+.upload-preview{margin-top:14px;display:none;text-align:center}
+.upload-preview img{max-width:100%;max-height:220px;border-radius:8px;border:1px solid rgba(255,255,255,.1);object-fit:contain}
+.preview-name{font-size:12px;color:rgba(110,231,183,.8);margin-top:8px;display:flex;align-items:center;gap:6px;justify-content:center;font-family:'Inter',sans-serif;font-weight:700}
+.remove-img{background:rgba(220,38,38,.15);border:1px solid rgba(220,38,38,.3);color:#fca5a5;padding:4px 12px;border-radius:4px;font-size:11px;font-family:'Inter',sans-serif;font-weight:700;cursor:pointer;margin-top:8px;display:inline-flex;align-items:center;gap:5px}
+.remove-img:hover{background:rgba(220,38,38,.3)}
+
+/* BUTTONS */
+.btn-main{width:100%;background:var(--gold);color:var(--ink);border:none;padding:15px;border-radius:var(--radius);font-family:'Inter',sans-serif;font-weight:800;font-size:16px;cursor:pointer;transition:.25s;display:flex;align-items:center;justify-content:center;gap:10px;margin-top:8px}
+.btn-main:hover{background:#b8952a;transform:translateY(-1px);box-shadow:0 8px 30px rgba(201,168,76,.3)}
+.btn-main:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:none}
+.btn-back{background:transparent;border:1.5px solid rgba(255,255,255,.15);color:rgba(255,255,255,.6);padding:11px;border-radius:var(--radius);font-family:'Inter',sans-serif;font-weight:600;font-size:14px;cursor:pointer;transition:.2s;width:100%;margin-top:8px}
+.btn-back:hover{border-color:rgba(255,255,255,.4);color:#fff}
+
+/* SPINNER */
+.spinner{display:inline-block;width:18px;height:18px;border:2px solid rgba(5,10,20,.3);border-top-color:var(--ink);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* RESULT PANELS */
+.result{display:none;animation:fadeIn .4s ease}
+.result.show{display:block}
+.success-panel{background:rgba(13,110,71,.1);border:1px solid rgba(13,110,71,.3);border-radius:12px;padding:36px;text-align:center}
+.success-panel .big-icon{font-size:48px;margin-bottom:16px}
+.success-panel h3{font-family:'Inter',sans-serif;font-size:22px;font-weight:800;color:#6ee7b7;margin-bottom:8px}
+.success-panel p{font-size:14px;color:rgba(110,231,183,.65);line-height:1.65;max-width:400px;margin:0 auto 16px}
+.success-tag{display:inline-block;background:rgba(13,110,71,.25);border:1px solid rgba(110,231,183,.25);color:#6ee7b7;padding:8px 22px;border-radius:50px;font-size:13px;font-weight:700;font-family:'Inter',sans-serif}
+.error-panel{background:rgba(220,38,38,.07);border:1px solid rgba(220,38,38,.2);border-radius:12px;padding:28px;text-align:center}
+.error-panel .big-icon{font-size:36px;margin-bottom:10px}
+.error-panel h3{font-family:'Inter',sans-serif;font-size:17px;font-weight:800;color:#fca5a5;margin-bottom:6px}
+.error-panel p{font-size:13px;color:rgba(252,165,165,.65);line-height:1.6}
+.error-panel .retry-btn{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7);padding:9px 20px;border-radius:var(--radius);font-family:'Inter',sans-serif;font-weight:700;font-size:13px;cursor:pointer;margin-top:14px;transition:.2s}
+.error-panel .retry-btn:hover{background:rgba(255,255,255,.14);color:#fff}
+.pending-notice{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:10px;padding:24px 28px;text-align:center;margin-bottom:20px}
+.pending-notice .big-icon{font-size:40px;margin-bottom:12px}
+.pending-notice h3{font-family:'Inter',sans-serif;font-size:18px;font-weight:800;color:var(--gold);margin-bottom:6px}
+.pending-notice p{font-size:13px;color:rgba(255,255,255,.5);line-height:1.6}
+
+/* FOOTER */
+footer{background:var(--ink);border-top:1px solid rgba(255,255,255,.06);padding:32px 24px;text-align:center;font-size:13px;color:rgba(255,255,255,.25)}
+footer a{color:var(--gold);text-decoration:none}
+
+@media(max-width:600px){
+  .card{padding:24px 20px}
+  .account-val{font-size:14px}
+  .fee-card-single .fee-info .amount{font-size:28px}
+}
